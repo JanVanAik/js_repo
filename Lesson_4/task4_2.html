@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Homework</title>
+</head>
+
+<body>
+    <!--
+Обязательное задание.
+
+Необходимо данное задание выполнить в es5 стиле и в es6 стиле.
+Необходимо создать функцию-конструктор/класс для поста в социальной сети.
+Названия: `PostES5` для es5 стиля и `PostES6` для es6 стиля.
+Пост должен хранить:
+1. Автора поста (имени достаточно).
+2. Текст поста.
+3. Дату и время последнего изменения поста.
+Данные автора поста и текст поста необходимо передавать при создании
+экземпляра объекта.
+Каждому экземпляру объекта должен быть доступен метод `edit`, который будет
+менять текст поста.
+
+---
+
+Необходимо создать функцию-конструктор/класс для закрепленного поста в
+социальной сети.
+Названия: `AttachedPostES5` для es5 стиля и `AttachedPostES6` для es6 стиля.
+Закрепленный пост должен наследоваться от обычного поста.
+Данные автора поста и текст поста необходимо передавать при создании
+экземпляра объекта.
+Закрепленный пост должен иметь свойство `highlighted`, в котором по умолчанию
+будет лежать значение false (это свойство будет обозначать, будет ли наш
+закрепленный пост подсвечен).
+У экземпляров объекта закрепленного поста должен быть метод с названием
+`makeTextHighlighted`, который сделает так, чтобы наш пост стал подсвеченным
+(будет менять свойство `highlighted`).
+
+---
+
+Подсказки:
+1. Задание сложное, советую делать по аналогии с примером на онлайн-занятии.
+2. Обратите внимание что пост хранит "дату и время последнего изменения
+поста", это значит что если пост кто-то изменит (например вызовет какой-то
+метод, который изменит что-то в посте), дата и время последнего изменения
+поста также должна измениться.
+3. Выполняйте все по порядку, не стоит пытаться сделать все сразу, иначе можно
+что-нибудь пропустить.
+4. Если непонятно условие - задайте вопрос.
+-->
+    <script>
+        "use strict";
+
+
+        // Task 1
+        function PostES5(author, txt) {
+            this.txt = txt;
+            this.author = author;
+            this.changeDate = new Date();
+        }
+
+        PostES5.prototype.editText = function (newTxt) {
+            this.txt = newTxt;
+            this.changeDate = Date();
+        };
+
+        class PostES6 {
+            constructor(txt, author) {
+                this.txt = txt;
+                this.author = author;
+                this.changeDate = new Date();
+            }
+
+            editText(newTxt) {
+                this.txt = newTxt;
+                this.changeDate = Date();
+            }
+        }
+
+        const myPostEs5 = new PostES5('Артем', 'Hello, world!');
+        console.log(myPostEs5);
+        myPostEs5.editText('Oh, hello, Satan!');
+        console.log(myPostEs5);
+
+        const myPostEs6 = new PostES5('Pyottr', 'Hello, world!');
+        console.log(myPostEs6);
+        myPostEs6.editText('Oh, hello, Satan!');
+        console.log(myPostEs6);
+
+
+        // Task 2 
+
+        function AttachedPostES5(author, txt) {
+            PostES5.call(this, author, txt);
+            this.isHighlighted = false;
+        }
+
+        AttachedPostES5.prototype = Object.create(PostES5.prototype);
+        AttachedPostES5.prototype.lightUp = function () {
+            if (this.isHighlighted === false) {
+                this.isHighlighted = true;
+            } else {
+                this.isHighlighted = false;
+            };
+        };
+
+        class AttachedPostES6 extends PostES6 {
+            constructor(author, txt) {
+                super(author, txt);
+                this.isHighlighted = false;
+            }
+
+            lightUp() {
+                if (this.isHighlighted === false) {
+                    this.isHighlighted = true;
+                } else {
+                    this.isHighlighted = false;
+                }
+            }
+
+        }
+
+        const myAttachES5 = new AttachedPostES5('Romeo', 'This is some real story of love');
+        // Экранирование у меня почему-то не работает, если писать "текст \
+        // текст" , то обратный слэш подчеркивается ошибкой
+        console.log(myAttachES5);
+        myAttachES5.lightUp();
+        console.log(myAttachES5);
+
+
+        const myAttachES6 = new AttachedPostES6('Juliette', 'alt+F4');
+        console.log(myAttachES6);
+        myAttachES6.lightUp();
+        console.log(myAttachES6);
+
+
+
+
+    </script>
+</body>
+
+</html>
